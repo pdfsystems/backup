@@ -17,6 +17,7 @@ class StoreBackupRequest extends FormRequest
             'mime_type' => ['required'],
             'size' => ['required', 'integer'],
             'meta' => ['nullable', 'json'],
+            'file' => ['required', 'file'],
         ];
     }
 

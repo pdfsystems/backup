@@ -22,7 +22,11 @@ class BackupController extends Controller
 
     public function store(StoreBackupRequest $request): Response
     {
-        return response()->json(Backup::create($request->validated()), Response::HTTP_CREATED);
+        $backup = Backup::create($request->validated());
+        $extension = pathinfo($backup->filename, PATHINFO_EXTENSION);
+        $request->file('file')->store("{$backup->getKey()}.$extension");
+
+        return response()->json($backup, Response::HTTP_CREATED);
     }
 
     public function show(Backup $backup): Response
