@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Application;
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\text;
 
 class ApplicationCreateCommand extends Command
@@ -18,8 +19,8 @@ class ApplicationCreateCommand extends Command
         $url = text('Enter the URL of the application');
 
         $application = Application::create([
-            'name' =>  $name,
-            'url' =>  $url,
+            'name' => $name,
+            'url' => $url,
         ]);
 
         $this->info("Application $application->name successfully created with id {$application->getKey()}.");

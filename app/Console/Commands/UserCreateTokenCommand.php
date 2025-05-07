@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Backup;
 use App\Models\User;
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\text;
 
@@ -55,6 +56,7 @@ class UserCreateTokenCommand extends Command
         foreach ($this->enumerateGuardedModels() as $modelClass) {
             $permissions = array_merge($permissions, $this->getModelPermissions($modelClass));
         }
+
         return $permissions;
     }
 
@@ -67,7 +69,7 @@ class UserCreateTokenCommand extends Command
     {
         return [
             Application::class,
-            Backup::class
+            Backup::class,
         ];
     }
 }
