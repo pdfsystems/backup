@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Action;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,15 +30,20 @@ class Role extends Model
         return $this->hasMany(RolePermission::class);
     }
 
-    public function hasPermission(Model $resource, string $action): bool
+    public function hasPermission(Model|string $resource, Action $action): bool
     {
+        // Convert the resource into a class name
+        if ($resource instanceof Model) {
+            $resource = get_class($resource);
+        }
+
         // Admins have all permissions
         if ($this->admin) {
             return true;
         }
 
         // Check if we're explicitly granted the request permission
-        if ($this->permissions()->whereResource(get_class($resource))->whereAction($action)->exists()) {
+        if ($this->permissions()->whereResource($resource)->whereAction($action)->exists()) {
             return true;
         }
 
@@ -47,7 +53,7 @@ class Role extends Model
         }
 
         // Check if we're granted all actions for the resource
-        if ($this->permissions()->whereResource(get_class($resource))->whereAction('*')->exists()) {
+        if ($this->permissions()->whereResource($resource)->whereAction('*')->exists()) {
             return true;
         }
 

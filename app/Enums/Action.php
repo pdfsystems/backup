@@ -9,4 +9,6 @@ enum Action: string
     case Read = 'read';
     case Update = 'update';
     case Delete = 'delete';
+    case Restore = 'restore';
+    case ForceDelete = 'forceDelete';
 }
