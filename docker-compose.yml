@@ -1,11 +1,11 @@
 services:
     laravel.test:
         build:
-            context: './vendor/laravel/sail/runtimes/8.4'
+            context: './development'
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: 'sail-8.4/app'
+        image: 'pdfsystems/backup:dev'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -22,7 +22,6 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
             - redis
     mysql:
         image: 'mysql/mysql-server:8.0'
@@ -48,6 +47,9 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+        profiles:
+            - full
+            - db
     redis:
         image: 'redis:alpine'
         ports:
