@@ -11,14 +11,21 @@ class StoreBackupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'application_id' => ['required', 'exists:applications'],
-            'disk' => ['required'],
+            'application_id' => ['required', 'exists:applications,id'],
+            'disk' => ['nullable'],
             'filename' => ['required'],
             'mime_type' => ['required'],
             'size' => ['required', 'integer'],
-            'meta' => ['nullable', 'json'],
+            'meta' => ['nullable', 'array'],
             'file' => ['required', 'file'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'meta' => ['foo' => 'bar'],
+        ]);
     }
 
     public function authorize(): bool

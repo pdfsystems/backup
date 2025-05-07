@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Action;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    /** @use HasFactory<UserFactory> */
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,6 +58,19 @@ class User extends Authenticatable
 
     public function hasPermission(Model|string $resource, Action $action): bool
     {
-        return $this->role->hasPermission($resource, $action);
+        if (! $this->role->hasPermission($resource, $action)) {
+            return false;
+        }
+
+        if ($this->authenticatedViaToken()) {
+            return $this->tokenCan(is_string($resource) ? $resource : get_class($resource).':'.$action->value);
+        }
+
+        return true;
+    }
+
+    public function authenticatedViaToken(): bool
+    {
+        return $this->currentAccessToken() instanceof PersonalAccessToken;
     }
 }
