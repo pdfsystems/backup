@@ -29,7 +29,7 @@ class BackupController extends Controller
     {
         $backup = Backup::create($request->validated());
         $extension = pathinfo($backup->filename, PATHINFO_EXTENSION);
-        $request->file('file')->store("{$backup->getKey()}.$extension");
+        $request->file('file')->storeAs("backups/{$backup->getKey()}.$extension");
 
         return response()->json($backup, Response::HTTP_CREATED);
     }
