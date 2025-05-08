@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListBackupsRequest;
 use App\Http\Requests\StoreBackupRequest;
 use App\Http\Requests\UpdateBackupRequest;
 use App\Models\Backup;
@@ -13,11 +14,15 @@ class BackupController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(): Response
+    public function index(ListBackupsRequest $request): Response
     {
-        $this->authorize('view-any', Backup::class);
+        $builder = Backup::orderByDesc('created_at');
 
-        return response()->json(Backup::orderByDesc('created_at')->paginate());
+        if ($request->filled('application_id')) {
+            $builder->whereApplicationId($request->get('application_id'));
+        }
+
+        return response()->json($builder->paginate());
     }
 
     public function store(StoreBackupRequest $request): Response
