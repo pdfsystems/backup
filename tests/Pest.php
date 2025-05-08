@@ -13,12 +13,12 @@
 
 uses(
     Tests\TestCase::class,
-     Illuminate\Foundation\Testing\RefreshDatabase::class,
+    Illuminate\Foundation\Testing\RefreshDatabase::class,
 )->in('Feature');
 
 uses(
     Tests\TestCase::class,
-     Illuminate\Foundation\Testing\RefreshDatabase::class,
+    Illuminate\Foundation\Testing\RefreshDatabase::class,
     Tests\AuthenticatedTest::class
 )->in('Api');
 

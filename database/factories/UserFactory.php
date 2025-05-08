@@ -46,7 +46,7 @@ class UserFactory extends Factory
     public function withRole(Role $role): static
     {
         return $this->state(fn (array $attributes) => [
-            'role_id' =>  $role->getKey(),
+            'role_id' => $role->getKey(),
         ]);
     }
 }
