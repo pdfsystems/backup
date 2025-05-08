@@ -23,9 +23,11 @@ class StoreBackupRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'meta' => ['foo' => 'bar'],
-        ]);
+        if ($this->filled('meta')) {
+            $this->merge([
+                'meta' => json_decode($this->get('meta'), true),
+            ]);
+        }
     }
 
     public function authorize(): bool
