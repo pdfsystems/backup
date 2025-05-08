@@ -11,11 +11,7 @@ class UpdateBackupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'application_id' => ['required', 'exists:applications'],
-            'disk' => ['required'],
             'filename' => ['required'],
-            'mime_type' => ['required'],
-            'size' => ['required', 'integer'],
             'meta' => ['nullable'],
         ];
     }
