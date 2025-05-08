@@ -13,9 +13,9 @@ test('create backups', function () {
         'filename' => 'backup.zip',
         'mime_type' => 'application/zip',
         'size' => 123456,
-        'meta' => [
+        'meta' => json_encode([
             'key' => 'value',
-        ],
+        ]),
         'file' => UploadedFile::fake()->create('backup.zip', 123456),
     ]);
 
