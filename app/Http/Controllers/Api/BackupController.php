@@ -16,7 +16,7 @@ class BackupController extends Controller
 
     public function index(ListBackupsRequest $request): Response
     {
-        $builder = Backup::orderByDesc('created_at');
+        $builder = Backup::orderByDesc('created_at')->with('application');
 
         if ($request->filled('application_id')) {
             $builder->whereApplicationId($request->get('application_id'));
@@ -38,7 +38,7 @@ class BackupController extends Controller
     {
         $this->authorize('view', $backup);
 
-        return response()->json($backup);
+        return response()->json($backup->load('application'));
     }
 
     public function update(UpdateBackupRequest $request, Backup $backup): Response
