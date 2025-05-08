@@ -17,7 +17,7 @@ class BackupController extends Controller
     {
         $this->authorize('view-any', Backup::class);
 
-        return response()->json(Backup::orderBy('name')->get());
+        return response()->json(Backup::orderByDesc('created_at')->paginate());
     }
 
     public function store(StoreBackupRequest $request): Response

@@ -17,7 +17,7 @@ class ApplicationController extends Controller
     {
         $this->authorize('view-any', Application::class);
 
-        return response()->json(Application::orderBy('name')->get());
+        return response()->json(Application::orderBy('name')->paginate());
     }
 
     public function store(StoreApplicationRequest $request): Response
