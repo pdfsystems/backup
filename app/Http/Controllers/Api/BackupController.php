@@ -49,10 +49,9 @@ class BackupController extends Controller
     public function download(Backup $backup)
     {
         $this->authorize('download', $backup);
-        $extension = pathinfo($backup->filename, PATHINFO_EXTENSION);
 
         return redirect(
-            Storage::temporaryUrl("backups/{$backup->getKey()}.$extension", now()->addHour())
+            Storage::temporaryUrl($backup->storagePath(), now()->addHour())
         );
     }
 

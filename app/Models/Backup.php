@@ -24,16 +24,23 @@ class Backup extends Model
         'meta',
     ];
 
+    protected $casts = [
+        'size' => 'integer',
+        'meta' => 'json',
+    ];
+
     public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
     }
 
-    protected function casts(): array
+    public function getExtension(): string
     {
-        return [
-            'size' => 'int',
-            'meta' => 'json',
-        ];
+        return pathinfo($this->filename, PATHINFO_EXTENSION);
+    }
+
+    public function storagePath(): string
+    {
+        return "backups/{$this->getKey()}." . pathinfo($this->filename, PATHINFO_EXTENSION);
     }
 }

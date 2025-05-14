@@ -12,6 +12,7 @@
     "require": {
         "php": "^8.2",
         "ext-pdo": "*",
+        "ext-zip": "*",
         "laravel/framework": "^12.0",
         "laravel/prompts": "^0.3.5",
         "laravel/sanctum": "^4.0",
