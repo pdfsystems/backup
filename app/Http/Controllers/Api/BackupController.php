@@ -8,6 +8,7 @@ use App\Http\Requests\StoreBackupRequest;
 use App\Http\Requests\UpdateBackupRequest;
 use App\Models\Backup;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class BackupController extends Controller
@@ -43,6 +44,16 @@ class BackupController extends Controller
         $this->authorize('view', $backup);
 
         return response()->json($backup->load('application'));
+    }
+
+    public function download(Backup $backup)
+    {
+        $this->authorize('download', $backup);
+        $extension = pathinfo($backup->filename, PATHINFO_EXTENSION);
+
+        return redirect(
+            Storage::temporaryUrl("backups/{$backup->getKey()}.$extension", now()->addHour())
+        );
     }
 
     public function update(UpdateBackupRequest $request, Backup $backup): Response

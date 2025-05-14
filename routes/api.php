@@ -10,6 +10,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return $request->user();
     });
 
+    Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
     Route::apiResource('applications', ApplicationController::class);
     Route::apiResource('backups', BackupController::class);
 });

@@ -21,6 +21,11 @@ class BackupPolicy
         return $user->hasPermission($backup, Action::Read);
     }
 
+    public function download(User $user, Backup $backup): bool
+    {
+        return $this->view($user, $backup);
+    }
+
     public function create(User $user): bool
     {
         return $user->hasPermission(Backup::class, Action::Create);
