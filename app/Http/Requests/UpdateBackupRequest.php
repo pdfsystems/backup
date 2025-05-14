@@ -12,6 +12,7 @@ class UpdateBackupRequest extends FormRequest
     {
         return [
             'filename' => ['required'],
+            'type' => ['nullable', 'string'],
             'meta' => ['nullable'],
         ];
     }

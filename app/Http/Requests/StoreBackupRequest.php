@@ -14,6 +14,7 @@ class StoreBackupRequest extends FormRequest
             'application_id' => ['required', 'exists:applications,id'],
             'disk' => ['nullable'],
             'filename' => ['required'],
+            'type' => ['nullable', 'string'],
             'mime_type' => ['required'],
             'size' => ['required', 'integer'],
             'meta' => ['nullable', 'array'],

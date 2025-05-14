@@ -18,6 +18,7 @@ class Backup extends Model
         'application_id',
         'disk',
         'filename',
+        'type',
         'mime_type',
         'size',
         'meta',
