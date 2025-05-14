@@ -22,6 +22,10 @@ class BackupController extends Controller
             $builder->whereApplicationId($request->get('application_id'));
         }
 
+        if ($request->filled('type')) {
+            $builder->whereType($request->get('type'));
+        }
+
         return response()->json($builder->paginate());
     }
 
