@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DownloadBackupsRequest;
 use App\Models\Backup;
 use Illuminate\Support\Facades\Storage;
+use RuntimeException;
 use ZipArchive;
 
 class BackupMultiDownloadController extends Controller
@@ -19,10 +20,26 @@ class BackupMultiDownloadController extends Controller
             $builder->where("meta->$key", '=', $value);
         }
 
+        if ($builder->doesntExist()) {
+            return response()->json(['error' => 'No matching backups found'], 404);
+        }
+
         $archive = new ZipArchive;
         $tempPath = tempnam(sys_get_temp_dir(), 'backup_');
-        $archive->open($tempPath, ZipArchive::CREATE);
-        $builder->each(fn (Backup $backup) => $this->addBackupToArchive($archive, $backup, $request->get('filename_meta_key')));
+        if ($archive->open($tempPath, ZipArchive::CREATE) !== true) {
+            return response()->json(['error' => 'Could not create zip archive'], 500);
+        }
+        try {
+            $builder->each(fn(Backup $backup) => $this->addBackupToArchive($archive, $backup, $request->get('filename_meta_key')));
+        } catch (RuntimeException $e) {
+            $archive->close();
+            unlink($tempPath);
+            return response()->json([
+                'error' => 'Could not add file to archive',
+                'exception' => $e->getMessage(),
+                'exception_class' => get_class($e),
+            ], 500);
+        }
         $archive->close();
 
         return response()->download($tempPath, 'Backups.zip')->deleteFileAfterSend();
@@ -36,6 +53,8 @@ class BackupMultiDownloadController extends Controller
             $filename = $backup->filename;
         }
 
-        $archive->addFromString($filename, Storage::get($backup->storagePath()));
+        if ($archive->addFromString($filename, Storage::get($backup->storagePath())) !== true) {
+            throw new RuntimeException("Could not add file $filename to archive");
+        }
     }
 }
