@@ -2,6 +2,10 @@
 
 All notable changes to `pdfsystems/backup` will be documented in this file.
 
+## 1.2.2 - 2025-05-14
+
+Add date filter for bulk backup download
+
 ## 1.2.1 - 2025-05-14
 
 Added error handling for download backups in bulk
