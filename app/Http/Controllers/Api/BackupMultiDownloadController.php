@@ -30,10 +30,11 @@ class BackupMultiDownloadController extends Controller
             return response()->json(['error' => 'Could not create zip archive'], 500);
         }
         try {
-            $builder->each(fn(Backup $backup) => $this->addBackupToArchive($archive, $backup, $request->get('filename_meta_key')));
+            $builder->each(fn (Backup $backup) => $this->addBackupToArchive($archive, $backup, $request->get('filename_meta_key')));
         } catch (RuntimeException $e) {
             $archive->close();
             unlink($tempPath);
+
             return response()->json([
                 'error' => 'Could not add file to archive',
                 'exception' => $e->getMessage(),
