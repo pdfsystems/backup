@@ -14,6 +14,7 @@ class DownloadBackupsRequest extends FormRequest
             'application_id' => ['required', 'exists:applications,id'],
             'type' => ['required', 'string'],
             'filename_meta_key' => ['string'],
+            'start_date' => ['date'],
         ];
     }
 

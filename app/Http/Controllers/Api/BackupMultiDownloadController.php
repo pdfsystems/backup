@@ -19,6 +19,9 @@ class BackupMultiDownloadController extends Controller
         foreach ($request->getMetaFilters() as $key => $value) {
             $builder->where("meta->$key", '=', $value);
         }
+        if ($request->filled('start_date')) {
+            $builder->whereDate('created_at', '>=', $request->get('start_date'));
+        }
 
         if ($builder->doesntExist()) {
             return response()->json(['error' => 'No matching backups found'], 404);
