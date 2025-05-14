@@ -41,6 +41,6 @@ class Backup extends Model
 
     public function storagePath(): string
     {
-        return "backups/{$this->getKey()}." . pathinfo($this->filename, PATHINFO_EXTENSION);
+        return "backups/{$this->getKey()}.".pathinfo($this->filename, PATHINFO_EXTENSION);
     }
 }

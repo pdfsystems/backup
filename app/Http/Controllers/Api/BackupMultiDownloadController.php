@@ -30,7 +30,7 @@ class BackupMultiDownloadController extends Controller
 
     private function addBackupToArchive(ZipArchive $archive, Backup $backup, ?string $filenameMetaKey = null): void
     {
-        if (!empty($filenameMetaKey) && ! empty($backup->meta[$filenameMetaKey])) {
+        if (! empty($filenameMetaKey) && ! empty($backup->meta[$filenameMetaKey])) {
             $filename = "{$backup->meta[$filenameMetaKey]}.{$backup->getExtension()}";
         } else {
             $filename = $backup->filename;
