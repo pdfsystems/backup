@@ -11,14 +11,12 @@ class UpdateBackupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filename' => ['required'],
-            'type' => ['nullable', 'string'],
-            'meta' => ['nullable'],
+            'meta' => ['nullable', 'array'],
         ];
     }
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Backup::class, Action::Update);
+        return $this->user()->can('update', $this->route('backup'));
     }
 }

@@ -33,6 +33,6 @@ class StoreBackupRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Backup::class, Action::Create);
+        return $this->user()->can('create', Backup::class);
     }
 }

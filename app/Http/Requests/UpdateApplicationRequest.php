@@ -18,6 +18,6 @@ class UpdateApplicationRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Application::class, Action::Update);
+        return $this->user()->can('update', $this->route('application'));
     }
 }

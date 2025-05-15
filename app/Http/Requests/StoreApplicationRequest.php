@@ -18,6 +18,6 @@ class StoreApplicationRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Application::class, Action::Create);
+        return $this->user()->can('create', Application::class);
     }
 }

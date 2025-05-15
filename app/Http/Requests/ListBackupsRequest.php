@@ -17,6 +17,6 @@ class ListBackupsRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Backup::class, Action::Read);
+        return $this->user()->can('view-any', Backup::class);
     }
 }

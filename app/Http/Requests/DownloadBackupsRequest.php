@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Action;
 use App\Models\Backup;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,7 +19,7 @@ class DownloadBackupsRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return $this->user()->hasPermission(Backup::class, Action::Read);
+        return $this->user()->can('view-any', Backup::class);
     }
 
     public function getMetaFilters(): array
