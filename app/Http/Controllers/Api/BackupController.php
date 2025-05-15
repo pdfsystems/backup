@@ -32,7 +32,9 @@ class BackupController extends Controller
 
     public function store(StoreBackupRequest $request): Response
     {
-        $backup = Backup::create($request->validated());
+        $backup = Backup::create(array_merge($request->validated(), [
+            'size' => $request->file('file')->getSize(),
+        ]));
         $extension = pathinfo($backup->filename, PATHINFO_EXTENSION);
         $request->file('file')->storeAs("backups/{$backup->getKey()}.$extension");
 

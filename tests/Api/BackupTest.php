@@ -12,16 +12,17 @@ test('create backups', function () {
         'application_id' => $application->getKey(),
         'filename' => 'backup.zip',
         'mime_type' => 'application/zip',
-        'size' => 123456,
+        'size' => 654321,
         'meta' => json_encode([
             'key' => 'value',
         ]),
-        'file' => UploadedFile::fake()->create('backup.zip', 123456),
+        'file' => UploadedFile::fake()->create('backup.zip', 10),
     ]);
 
     $response->assertStatus(Response::HTTP_CREATED);
     expect($response->json('filename'))->toBe('backup.zip')
-        ->and($response->json('id'))->toBeGreaterThan(0);
+        ->and($response->json('id'))->toBeGreaterThan(0)
+        ->and($response->json('size'))->toBe(10240);
 });
 
 test('list backups', function () {
