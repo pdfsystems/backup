@@ -53,6 +53,6 @@ test('remove application', function () {
 });
 
 test('show missing application', function () {
-    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/applications/1");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get('/api/applications/1');
     $response->assertStatus(Response::HTTP_NOT_FOUND);
 });

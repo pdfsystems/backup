@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Action;
 use App\Models\Application;
 use Illuminate\Foundation\Http\FormRequest;
 

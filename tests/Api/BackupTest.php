@@ -66,6 +66,6 @@ test('remove backup', function () {
 });
 
 test('show missing backup', function () {
-    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/backups/1");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get('/api/backups/1');
     $response->assertStatus(Response::HTTP_NOT_FOUND);
 });

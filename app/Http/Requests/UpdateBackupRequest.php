@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Action;
-use App\Models\Backup;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBackupRequest extends FormRequest

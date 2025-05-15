@@ -8,9 +8,11 @@ use App\Models\User;
 trait AuthenticatedTest
 {
     protected ?User $admin;
+
     protected ?User $noAccess;
 
     protected ?string $adminToken;
+
     protected ?string $noAccessToken;
 
     public function setUpAuthenticatedTest(): void
