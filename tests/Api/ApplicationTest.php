@@ -4,7 +4,7 @@ use App\Models\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 test('create applications', function () {
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->post('/api/applications', [
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->post('/api/applications', [
         'name' => 'Test Application',
     ]);
 
@@ -15,7 +15,7 @@ test('create applications', function () {
 
 test('list applications', function () {
     Application::factory()->count(10)->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->get('/api/applications');
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get('/api/applications');
 
     $response->assertStatus(Response::HTTP_OK);
     expect($response->json('total'))->toBe(10)
@@ -24,7 +24,7 @@ test('list applications', function () {
 
 test('show application', function () {
     $application = Application::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->get("/api/applications/{$application->getKey()}");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/applications/{$application->getKey()}");
 
     $response->assertStatus(Response::HTTP_OK);
     expect($response->json('id'))->toBe($application->getKey())
@@ -33,7 +33,7 @@ test('show application', function () {
 
 test('update application', function () {
     $application = Application::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->put("/api/applications/{$application->getKey()}", [
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->put("/api/applications/{$application->getKey()}", [
         'name' => 'Updated Application',
     ]);
 
@@ -45,9 +45,14 @@ test('update application', function () {
 
 test('remove application', function () {
     $application = Application::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->delete("/api/applications/{$application->getKey()}");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->delete("/api/applications/{$application->getKey()}");
 
     $response->assertStatus(Response::HTTP_NO_CONTENT);
     expect($response->isEmpty())->toBeTrue()
         ->and(Application::count())->toBe(0);
+});
+
+test('show missing application', function () {
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/applications/1");
+    $response->assertStatus(Response::HTTP_NOT_FOUND);
 });

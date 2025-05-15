@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 test('create backups', function () {
     $application = Application::factory()->create();
 
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->post('/api/backups', [
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->post('/api/backups', [
         'application_id' => $application->getKey(),
         'filename' => 'backup.zip',
         'mime_type' => 'application/zip',
@@ -26,7 +26,7 @@ test('create backups', function () {
 
 test('list backups', function () {
     Backup::factory()->count(10)->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->get('/api/backups');
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get('/api/backups');
 
     $response->assertStatus(Response::HTTP_OK);
     expect($response->json('total'))->toBe(10)
@@ -35,7 +35,7 @@ test('list backups', function () {
 
 test('show backup', function () {
     $backup = Backup::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->get("/api/backups/{$backup->getKey()}");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/backups/{$backup->getKey()}");
 
     $response->assertStatus(Response::HTTP_OK);
     expect($response->json('id'))->toBe($backup->getKey())
@@ -44,7 +44,7 @@ test('show backup', function () {
 
 test('update backup', function () {
     $backup = Backup::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->put("/api/backups/{$backup->getKey()}", [
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->put("/api/backups/{$backup->getKey()}", [
         'meta' => [
             'foo' => 'bar',
         ],
@@ -58,9 +58,14 @@ test('update backup', function () {
 
 test('remove backup', function () {
     $backup = Backup::factory()->create();
-    $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->delete("/api/backups/{$backup->getKey()}");
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->delete("/api/backups/{$backup->getKey()}");
 
     $response->assertStatus(Response::HTTP_NO_CONTENT);
     expect($response->isEmpty())->toBeTrue()
         ->and(Backup::count())->toBe(0);
+});
+
+test('show missing backup', function () {
+    $response = $this->withToken($this->adminToken)->withHeader('Accept', 'application/json')->get("/api/backups/1");
+    $response->assertStatus(Response::HTTP_NOT_FOUND);
 });
