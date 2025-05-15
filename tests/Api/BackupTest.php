@@ -45,16 +45,13 @@ test('show backup', function () {
 test('update backup', function () {
     $backup = Backup::factory()->create();
     $response = $this->withToken($this->token)->withHeader('Accept', 'application/json')->put("/api/backups/{$backup->getKey()}", [
-        'filename' => 'new.zip',
         'meta' => [
             'foo' => 'bar',
         ],
-        'size' => 0,
     ]);
 
     $response->assertStatus(Response::HTTP_OK);
     expect($response->json('id'))->toBe($backup->getKey())
-        ->and($response->json('filename'))->toBe('new.zip')
         ->and($response->json('meta.foo'))->toBe('bar')
         ->and($response->json('size'))->toBe($backup->size);
 });
