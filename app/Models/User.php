@@ -63,7 +63,7 @@ class User extends Authenticatable
         }
 
         if ($this->authenticatedViaToken()) {
-            return $this->tokenCan(is_string($resource) ? $resource : get_class($resource).':'.$action->value);
+            return $this->tokenCan((is_string($resource) ? $resource : get_class($resource)).':'.$action->value);
         }
 
         return true;
