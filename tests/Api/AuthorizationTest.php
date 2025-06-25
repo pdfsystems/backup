@@ -86,7 +86,7 @@ test('create backups with limited token', function () {
     $application = Application::factory()->create();
     $token = $this->parseToken(
         $this->admin->createToken('Create Backup Token', [
-            Backup::class.':'. Action::Create->value,
+            Backup::class.':'.Action::Create->value,
         ])
     );
 
@@ -107,7 +107,7 @@ test('create backups with limited token', function () {
 test('list backups with limited token', function () {
     $token = $this->parseToken(
         $this->admin->createToken('Read Backup Token', [
-            Backup::class.':'. Action::Read->value,
+            Backup::class.':'.Action::Read->value,
         ])
     );
 
@@ -120,7 +120,7 @@ test('list backups with limited token', function () {
 test('show backup with limited token', function () {
     $token = $this->parseToken(
         $this->admin->createToken('Read Backup Token', [
-            Backup::class.':'. Action::Read->value,
+            Backup::class.':'.Action::Read->value,
         ])
     );
 
@@ -133,7 +133,7 @@ test('show backup with limited token', function () {
 test('update backup with limited token', function () {
     $token = $this->parseToken(
         $this->admin->createToken('List Backup Token', [
-            Backup::class.':'. Action::Update->value,
+            Backup::class.':'.Action::Update->value,
         ])
     );
 
@@ -148,7 +148,7 @@ test('update backup with limited token', function () {
 test('remove backup with limited token', function () {
     $token = $this->parseToken(
         $this->admin->createToken('Delete Backup Token', [
-            Backup::class.':'. Action::Delete->value,
+            Backup::class.':'.Action::Delete->value,
         ])
     );
 
