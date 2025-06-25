@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\Role;
 use App\Models\User;
+use Laravel\Sanctum\NewAccessToken;
 
 trait AuthenticatedTest
 {
@@ -30,7 +31,12 @@ trait AuthenticatedTest
         $noAccessToken = $this->noAccess->createToken('Test Token');
 
         // Store tokens
-        $this->adminToken = substr($adminToken->plainTextToken, strpos($adminToken->plainTextToken, '|') + 1);
-        $this->noAccessToken = substr($noAccessToken->plainTextToken, strpos($noAccessToken->plainTextToken, '|') + 1);
+        $this->adminToken = $this->parseToken($adminToken);
+        $this->noAccessToken = $this->parseToken($noAccessToken);
+    }
+
+    protected function parseToken(NewAccessToken $token): string
+    {
+        return substr($token->plainTextToken, strpos($token->plainTextToken, '|') + 1);
     }
 }
