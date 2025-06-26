@@ -14,7 +14,8 @@ class RolePermission extends Model
 
     protected $fillable = [
         'role_id',
-        'permission',
+        'resource',
+        'action',
     ];
 
     public function role(): BelongsTo

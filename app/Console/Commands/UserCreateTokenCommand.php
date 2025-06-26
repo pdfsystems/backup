@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Action;
-use App\Models\Application;
-use App\Models\Backup;
+use App\Concerns\EnumeratesPermissions;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -13,6 +11,8 @@ use function Laravel\Prompts\text;
 
 class UserCreateTokenCommand extends Command
 {
+    use EnumeratesPermissions;
+
     protected $signature = 'user:create-token';
 
     protected $description = 'Creates a new API access token for a user';
@@ -41,35 +41,5 @@ class UserCreateTokenCommand extends Command
         $validPermissions = $this->enumeratePermissions();
 
         return multiselect('Select the permissions for the token', $validPermissions, default: ['*']);
-    }
-
-    private function enumeratePermissions(): array
-    {
-        return array_merge([
-            '*',
-        ], $this->enumerateModelPermissions());
-    }
-
-    private function enumerateModelPermissions(): array
-    {
-        $permissions = [];
-        foreach ($this->enumerateGuardedModels() as $modelClass) {
-            $permissions = array_merge($permissions, $this->getModelPermissions($modelClass));
-        }
-
-        return $permissions;
-    }
-
-    private function getModelPermissions(string $modelClass): array
-    {
-        return array_map(fn (string $permission) => "$modelClass:$permission", array_column(Action::cases(), 'value'));
-    }
-
-    private function enumerateGuardedModels(): array
-    {
-        return [
-            Application::class,
-            Backup::class,
-        ];
     }
 }
