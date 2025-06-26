@@ -31,11 +31,13 @@ docker exec -it {container_name} php artisan user:create
 ```bash
 docker exec -it {container_name} php artisan user:create-token
 ```
+Once created, be sure to copy the token and paste it into your application as it will not be shown again.
 
 #### Create Application
 ```bash
 docker exec -it {container_name} php artisan application:create
 ```
+Once created, you will need to copy the `id` of the application and paste it into your application configuration.
 
 ### API
 
