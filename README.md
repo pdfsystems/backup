@@ -50,7 +50,7 @@ Once the application is set up, you can use the API to create backups for define
 All API requests should include the `Authorization` header with a Bearer token for the user created in the setup step.
 
 #### Create Backup
-POST `/api/backup`
+POST `/api/backups`
 ```json
 {
     "application_id": 1,
