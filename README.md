@@ -17,6 +17,11 @@ Only the `APP_KEY` and `APP_URL` environment variables are required, along with 
 After setting up the environment variables, start the application using Docker or Docker Compose and perform the
 following initial setup steps.
 
+#### Seed Database
+```bash
+docker exec -it {container_name} php artisan db:seed
+```
+
 #### Create Role(s) (optional)
 ```bash
 docker exec -it {container_name} php artisan role:create
