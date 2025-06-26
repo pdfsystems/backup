@@ -2,6 +2,7 @@ FROM rpungello/laravel-franken:8.4
 
 ARG VERSION=1.0.0
 ENV APP_VERSION=${VERSION}
+ENV APP_NAME="PDF Backup"
 COPY . /app
 RUN composer install && npm install && npm run build \
  && chown -R www-data:www-data /app \
