@@ -37,11 +37,4 @@ trait EnumeratesPermissions
             Backup::class,
         ];
     }
-
-    private function getAbilities(): array
-    {
-        $validPermissions = $this->enumeratePermissions();
-
-        return $this->multiselect('Select the permissions for the token', $validPermissions, default: ['*']);
-    }
 }
