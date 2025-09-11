@@ -7,9 +7,12 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ApplicationIndex extends Component
 {
+    use WithPagination;
+
     public string $sortBy = 'name';
 
     public string $sortDirection = 'asc';
