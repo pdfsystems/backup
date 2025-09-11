@@ -2,7 +2,7 @@ services:
   app:
     image: "692057070962.dkr.ecr.us-east-1.amazonaws.com/backup:${IMAGE_TAG:-latest}"
     ports:
-      - "${WEB_PORT:-80}:80"
+      - "${WEB_PORT:-80}:8000"
     restart: unless-stopped
     env_file: .env
     volumes:
