@@ -2,6 +2,10 @@
 
 All notable changes to `pdfsystems/backup` will be documented in this file.
 
+## 1.4.0 - 2025-09-11
+
+Added basic web UI
+
 ## 1.3.1 - 2025-07-22
 
 Dependency updates - fixes https://github.com/advisories/GHSA-fjxv-7rqg-78g4
