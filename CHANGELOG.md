@@ -2,6 +2,10 @@
 
 All notable changes to `pdfsystems/backup` will be documented in this file.
 
+## 1.4.3 - 2025-09-11
+
+Fix pagination
+
 ## 1.4.2 - 2025-09-11
 
 Update docker user
