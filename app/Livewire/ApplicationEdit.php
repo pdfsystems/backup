@@ -31,6 +31,7 @@ class ApplicationEdit extends Component
 
     public function save(): void
     {
+        $this->authorize('update', Application::class);
         $this->application->update($this->validate());
 
         Flux::toast('Application updated', variant: 'success');
