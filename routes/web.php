@@ -10,7 +10,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Models\Backup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate as Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,4 +40,4 @@ Route::middleware(['auth'])->group(function () {
     })->name('ui.backups.download');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
