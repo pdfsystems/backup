@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3627b621273e74424f3de9ceff07221a",
+    "content-hash": "6592b38277fe7f9ee087ef1b8835d7c2",
     "packages": [
         {
             "name": "brick/math",
@@ -441,6 +441,53 @@
                 }
             ],
             "time": "2024-10-09T13:47:03+00:00"
+        },
+        {
+            "name": "dyrynda/laravel-nullable-fields",
+            "version": "4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michaeldyrynda/laravel-nullable-fields.git",
+                "reference": "88cea976903dec4722673ac52152367926908291"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-nullable-fields/zipball/88cea976903dec4722673ac52152367926908291",
+                "reference": "88cea976903dec4722673ac52152367926908291",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0 || ^12.0",
+                "illuminate/database": "^11.0 || ^12.0",
+                "illuminate/events": "^11.0 || ^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.34"
+            },
+            "type": "utility",
+            "autoload": {
+                "psr-4": {
+                    "Dyrynda\\Database\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dyrynda",
+                    "email": "michael@dyrynda.com.au",
+                    "homepage": "https://dyrynda.com.au"
+                }
+            ],
+            "description": "This trait allows you to easily flag attributes that should be set as null when being persisted to the database using the Laravel PHP Framework.",
+            "support": {
+                "issues": "https://github.com/michaeldyrynda/laravel-nullable-fields/issues",
+                "source": "https://github.com/michaeldyrynda/laravel-nullable-fields/tree/4.5.0"
+            },
+            "time": "2025-02-26T10:30:44+00:00"
         },
         {
             "name": "egulias/email-validator",

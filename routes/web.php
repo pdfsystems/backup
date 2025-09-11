@@ -1,5 +1,8 @@
 <?php
 
+use App\Livewire\ApplicationCreate;
+use App\Livewire\ApplicationEdit;
+use App\Livewire\ApplicationIndex;
 use App\Livewire\Dashboard;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -17,7 +20,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('applications', ApplicationIndex::class)->name('ui.applications.index');
+    Route::get('applications/create', ApplicationCreate::class)->name('ui.applications.create');
+    Route::get('applications/{application}/edit', ApplicationEdit::class)->name('ui.applications.edit');
 });
 
 require __DIR__.'/auth.php';

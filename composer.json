@@ -19,6 +19,7 @@
         "php": "^8.2",
         "ext-pdo": "*",
         "ext-zip": "*",
+        "dyrynda/laravel-nullable-fields": "^4.5",
         "laravel/framework": "^12.0",
         "laravel/prompts": "^0.3.5",
         "laravel/sanctum": "^4.0",
