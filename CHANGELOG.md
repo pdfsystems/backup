@@ -2,6 +2,10 @@
 
 All notable changes to `pdfsystems/backup` will be documented in this file.
 
+## 1.4.1 - 2025-09-11
+
+Fixes for Dockerfile
+
 ## 1.4.0 - 2025-09-11
 
 Added basic web UI
