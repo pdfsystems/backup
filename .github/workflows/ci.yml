@@ -20,7 +20,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
 
       - name: Update changelog
         uses: stefanzweifel/changelog-updater-action@v1
@@ -31,7 +31,7 @@ jobs:
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
-          branch: main
+          branch: master
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md
 
