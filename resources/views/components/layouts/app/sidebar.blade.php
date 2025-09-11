@@ -17,6 +17,9 @@
                     @can('view-any', \App\Models\Application::class)
                         <flux:navlist.item icon="server-stack" :href="route('ui.applications.index')" :current="request()->routeIs('ui.applications.index')" wire:navigate>{{ __('Applications') }}</flux:navlist.item>
                     @endcan
+                    @can('view-any', \App\Models\Backup::class)
+                        <flux:navlist.item icon="circle-stack" :href="route('ui.backups.index')" :current="request()->routeIs('ui.backups.index')" wire:navigate>{{ __('Backup') }}</flux:navlist.item>
+                    @endcan
                 </flux:navlist.group>
             </flux:navlist>
 

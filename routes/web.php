@@ -3,10 +3,14 @@
 use App\Livewire\ApplicationCreate;
 use App\Livewire\ApplicationEdit;
 use App\Livewire\ApplicationIndex;
+use App\Livewire\BackupIndex;
 use App\Livewire\Dashboard;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Models\Backup;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate as Gate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,9 +25,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 
     Route::get('dashboard', Dashboard::class)->name('dashboard');
+
     Route::get('applications', ApplicationIndex::class)->name('ui.applications.index');
     Route::get('applications/create', ApplicationCreate::class)->name('ui.applications.create');
     Route::get('applications/{application}/edit', ApplicationEdit::class)->name('ui.applications.edit');
+
+    Route::get('backups', BackupIndex::class)->name('ui.backups.index');
+    Route::get('backups/{backup}/download', function (Request $request, Backup $backup) {
+        Gate::authorize('download', $backup);
+
+        return redirect(
+            Storage::temporaryUrl($backup->storagePath(), now()->addMinutes(5))
+        );
+    })->name('ui.backups.download');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
