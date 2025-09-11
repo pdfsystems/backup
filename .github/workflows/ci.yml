@@ -1,30 +1,80 @@
-name: ci
+name: Continuous integration
 
 on:
   release:
     types: [released]
 
+env:
+  REGISTRY: ${{ vars.REGISTRY }}
+  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+
 jobs:
-  docker:
+  changelog:
+    name: Update changelog
     runs-on: ubuntu-latest
+    environment: Build
+    permissions:
+      contents: write
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update changelog
+        uses: stefanzweifel/changelog-updater-action@v1
+        with:
+          latest-version: ${{ github.event.release.name }}
+          release-notes: ${{ github.event.release.body }}
+
+      - name: Commit updated CHANGELOG
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          branch: main
+          commit_message: Update CHANGELOG
+          file_pattern: CHANGELOG.md
+
+      - name: Upload changelog
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG.md
+
+  docker:
+    name: Build and push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    environment: Build
+    needs: changelog
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download changelog
+        uses: actions/download-artifact@v4
+        with:
+          name: changelog
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # list of Docker images to use as base name for tags
-          images: |
-            692057070962.dkr.ecr.us-east-1.amazonaws.com/backup
-          # generate Docker tags based on the following events/attributes
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-      - name: Login to ECR
+
+      - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: 692057070962.dkr.ecr.us-east-1.amazonaws.com
+          registry: ${{ env.REGISTRY }}
           username: ${{ vars.AWS_ACCESS_KEY_ID }}
           password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -37,9 +87,13 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
           platforms: linux/amd64,linux/arm64/v8
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          secrets: |
+            FLUX_LICENSE_KEY=${{ secrets.FLUX_LICENSE_KEY }}
           build-args: |
             VERSION=${{ github.ref_name }}
+            FLUX_USERNAME=${{ vars.FLUX_USERNAME }}
